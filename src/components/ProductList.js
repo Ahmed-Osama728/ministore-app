@@ -23,7 +23,7 @@ const ProductList = ({ currIndex, active }) => {
       <ListContainer>
         {active}
         <List>
-          {data?.category.products.map((product) => (
+          {data?.category?.products?.map((product) => (
             <Fragment key={product.id}>
               <ProductCard
                 itemId={product.id}
