@@ -1,17 +1,38 @@
 import React from 'react';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import styled, { css } from 'styled-components';
 import cartIcon from '../assets/Common.png';
+import { addToCart } from '../store/cartSlice';
 
-const ProductCard = ({ key, id, image, brand, name, symbol, amount }) => {
+const ProductCard = ({
+  itemId,
+  id,
+  image,
+  brand,
+  name,
+  symbol,
+  amount,
+  productData,
+  inStock
+}) => {
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (productData) => {
+    dispatch(addToCart(productData));
+  };
+
   return (
-    <ProductContainer key={key} id={id}>
-      <ProductImg>
-        <a href="/products/:id">
+    <ProductContainer key={itemId} inStock={inStock}>
+      <ProductImg inStock={inStock}>
+        <a href={`/products/${id}`}>
           <img src={image} alt="product image" />
         </a>
 
-        <img src={cartIcon} alt="cart icon" />
+        <a onClick={() => addToCartHandler(productData)}>
+          <img src={cartIcon} alt="cart icon" />
+        </a>
       </ProductImg>
+      <p>OUT OF STOCK</p>
       <ProductContent>
         <ProductName>
           {brand} {name}
@@ -32,53 +53,74 @@ const ProductContainer = styled.div`
   flex-direction: column;
   padding: 16px;
   background-color: white;
+  position: relative;
+  opacity: 0.9;
+
+  > p {
+    font-family: Raleway;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 160%;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    position: absolute;
+    top: 37%;
+    color: #8d8f9a;
+    display: none;
+    ${(p) =>
+      p.inStock &&
+      css`
+        display: block;
+      `}
+  }
   :hover {
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
-    > :first-child > img:last-child {
+    opacity: 1;
+    transform: scale(1.05);
+    transition: transform 250ms ease-in;
+    > :first-child > a:last-child > img {
       display: block;
     }
   }
 `;
 const ProductImg = styled.div`
   height: 75%;
-  position: relative;
   cursor: pointer;
-  > a > img {
+  > a:first-child > img {
     width: 100%;
     height: 100%;
+
+    ${(p) =>
+      p.inStock &&
+      css`
+        opacity: 0.5;
+      `}
   }
 
-  > img:last-child {
+  > a:last-child {
+    position: relative;
+    text-decoration: none;
+  }
+  > a:last-child > img {
     filter: drop-shadow(0px 4px 11px rgba(29, 31, 34, 0.1));
     max-width: 52px;
     max-height: 52px;
     position: absolute;
-    right: 15px;
-    bottom: -26px;
+    right: 3px;
+    bottom: -13px;
     display: none;
   }
-`;
 
-/* const Rotate = styled.div`
-
-const rotate = keyframes`
-  0% {
-    -webkit-transform: scale(0.5);
-            transform: scale(0.5);
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
+  > a:last-child > img:hover {
+    transform: scale(1.1);
+    transition: transform 250ms ease-in-out;
   }
 `;
-  -webkit-animation: ${rotate}0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: ${rotate} 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-`; */
 
 const ProductContent = styled.div`
   display: flex;
   flex-direction: column;
-
   height: 25%;
   justify-content: flex-end;
   box-sizing: border-box;
@@ -91,7 +133,6 @@ const ProductName = styled.div`
   line-height: 160%;
   align-items: center;
   color: #1d1f22;
-
   margin: 0px 0px;
 `;
 const ProductPrice = styled.div`

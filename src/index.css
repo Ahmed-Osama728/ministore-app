@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;500;700&display=swap');
 * {
   margin: 0;
 }
@@ -15,4 +16,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: white;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid #5ece7b;
 }
