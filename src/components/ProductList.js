@@ -26,15 +26,15 @@ const ProductList = ({ currIndex, active }) => {
           {data?.category?.products?.map((product) => (
             <Fragment key={product.id}>
               <ProductCard
-                itemId={product.id}
-                id={product.id.split('-')[0]}
-                image={product.gallery[0]}
-                brand={product.brand}
-                name={product.name}
-                symbol={product.prices[currIndex].currency.symbol}
-                amount={product.prices[currIndex].amount}
+                itemId={product?.id}
+                id={product?.id.split('-')[0]}
+                image={product?.gallery[0]}
+                brand={product?.brand}
+                name={product?.name}
+                symbol={product?.prices[currIndex].currency.symbol}
+                amount={product?.prices[currIndex].amount}
                 productData={product}
-                inStock={product.inStock}
+                inStock={product?.inStock}
               />
             </Fragment>
           ))}
